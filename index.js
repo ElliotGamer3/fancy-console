@@ -5,8 +5,9 @@
  * @version 1.0.0
  * @since 1.0.0
  * @description A custom console with log, error, warning, and progress functionalities for Node.js that provides a running display of log messages and progress bars in the console.
+ * @link https://github.com/ElliotGamer3/fancy-console
  * @author Elliot 'ElliotGamer3' Imhoff
- * @license MIT
+ * @license ISC
  * @example
  * const Console = require('./console');
  * Console.log('This is a log message');
