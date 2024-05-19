@@ -1,6 +1,6 @@
 {
-  "name": "fancy-console",
-  "version": "1.0.2",
+  "name": "split-console",
+  "version": "1.0.3",
   "description": "A custom console with log, error, warning, and progress functionalities for Node.js that provides a running display of log messages and progress bars in the console.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ElliotGamer3/fancy-console.git"
+    "url": "git+https://github.com/ElliotGamer3/split-console.git"
   },
   "keywords": [
     "console",
@@ -28,7 +28,7 @@
   "author": "Elliot \"ElliotGamer3\" Imhoff",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ElliotGamer3/fancy-console/issues"
+    "url": "https://github.com/ElliotGamer3/split-console/issues"
   },
-  "homepage": "https://github.com/ElliotGamer3/fancy-console#readme"
+  "homepage": "https://github.com/ElliotGamer3/split-console#readme"
 }
