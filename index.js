@@ -166,9 +166,6 @@ class Console {
     }
 }
 
-// Run the test if this file is the main module
-if (require.main === module) { Console.test(); }
-
 module.exports.default = Console;
 module.exports = Console;
 

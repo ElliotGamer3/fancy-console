@@ -1,10 +1,12 @@
 {
   "name": "fancy-console",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A custom console with log, error, warning, and progress functionalities for Node.js that provides a running display of log messages and progress bars in the console.",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test_require": "node require.test.js",
+    "test_import": "node import.test.mjs",
+    "test": "npm run test_require && npm run test_import"
   },
   "repository": {
     "type": "git",
@@ -21,8 +23,6 @@
     "development",
     "output",
     "error-handling",
-    "warning",
-    "success",
     "custom-console"
   ],
   "author": "Elliot \"ElliotGamer3\" Imhoff",
