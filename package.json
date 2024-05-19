@@ -1,0 +1,34 @@
+{
+  "name": "fancy-console",
+  "version": "1.0.0",
+  "description": "A custom console with log, error, warning, and progress functionalities for Node.js that provides a running display of log messages and progress bars in the console.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElliotGamer3/fancy-console.git"
+  },
+  "keywords": [
+    "console",
+    "logging",
+    "progress-bar",
+    "nodejs",
+    "terminal",
+    "cli",
+    "debugging",
+    "development",
+    "output",
+    "error-handling",
+    "warning",
+    "success",
+    "custom-console"
+  ],
+  "author": "Elliot \"ElliotGamer3\" Imhoff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElliotGamer3/fancy-console/issues"
+  },
+  "homepage": "https://github.com/ElliotGamer3/fancy-console#readme"
+}
