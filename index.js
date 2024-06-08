@@ -23,6 +23,7 @@ class Console {
     static YELLOW_TEXT = '\x1b[33m';
     static GREEN_TEXT = '\x1b[32m';
     static RESET_TEXT = '\x1b[0m';
+    static PROGRESS_BAR_SYMBOL = '█';
 
     static log_queue = [];
     static progress_queue = [];
@@ -31,17 +32,17 @@ class Console {
      * Updates the progress of a task and displays it in the console.
      * 
      * @param {string} task - The name of the task.
-     * @param {number} progress - The progress of the task as a percentage.
+     * @param {number} progress - The progress of the task as a percentage (0-100).
      * @returns {void}
      */
     static progress(task, progress) {
         const console_height = process.stdout.rows;
         const console_width = process.stdout.columns;
-        const progress_bar_width = console_width - task.length - 8;
-        const progress_bar = Array(Math.floor(progress_bar_width * (progress / 100))).fill(`█`).join('');
+        let progress_bar_width = ((console_width - task.length - 8) < 0) ? 20 : console_width - task.length - 8;
+        const progress_bar = Array(Math.floor(progress_bar_width * (progress / 100))).fill(Console.PROGRESS_BAR_SYMBOL).join('');
         const progress_bar_empty = Array(progress_bar_width - progress_bar.length).fill(' ').join('');
         const progress_line = `${progress_bar}${progress_bar_empty}`;
-        Console.add_to_progress_queue(task, `${task} [${Console.GREEN_TEXT}${progress_line}${Console.RESET_TEXT}] ${progress}%`);
+        Console.add_to_progress_queue(task, progress, `${task} [${Console.GREEN_TEXT}${progress_line}${Console.RESET_TEXT}] ${progress}%`);
         Console.update_display();
     }
 
@@ -62,9 +63,10 @@ class Console {
      * Adds a progress bar to the progress queue or updates an existing progress bar.
      * @param {string} id - The ID of the progress bar.
      * @param {number} progress - The progress value of the progress bar.
+     * @param {string} progress_line - The progress line of the progress bar.
      * @returns {void}
      */
-    static add_to_progress_queue(id, progress) {
+    static add_to_progress_queue(id, progress, progress_line) {
         const progress_height = Math.floor(process.stdout.rows/2);
         Console.progress_queue = Console.progress_queue.filter((progress_bar) => progress_bar.progress < 100);
         while(Console.progress_queue.length >= progress_height) {
@@ -73,10 +75,11 @@ class Console {
         for(let i = 0; i < Console.progress_queue.length; i++) {
             if(Console.progress_queue[i].id === id) {
                 Console.progress_queue[i].progress = progress;
+                Console.progress_queue[i].progress_line = progress_line;
                 return;
             }
         }
-        Console.progress_queue.push({id, progress});
+        Console.progress_queue.push({id, progress, progress_line});
         Console.update_display();
     }
 
@@ -88,14 +91,17 @@ class Console {
      * @returns {void}
      */
     static update_display() {
-        const console_height = process.stdout.rows;
-        const console_width = process.stdout.columns;
+        const console_height = (process.stdout.rows <= 5) ? 5 : process.stdout.rows;
+        const console_width = (process.stdout.columns <= 35) ? 40 : process.stdout.columns;
         const log_height = Math.floor(console_height/2);
         const progress_height = Math.floor(console_height/2);
         console.clear();
         for(let i = 0; i < log_height; i++) {
             if(i < Console.log_queue.length) {
-                console.log(Console.log_queue[i]);
+                // If the message to be logged is longer than the console width then it will be truncated to fit the console width.
+                let message_length = Console.log_queue[i].replace(/\x1b\[\d+m/g, '').length;
+                if(message_length > console_width) { console.log(Console.log_queue[i].substr(0, console_width)); }
+                else { console.log(Console.log_queue[i]); }
             } else {
                 console.log('');
             }
@@ -105,7 +111,10 @@ class Console {
         }
         for(let i = 0; i < progress_height; i++) {
             if(i < Console.progress_queue.length) {
-                console.log(Console.progress_queue[i].progress);
+                // Remove the color codes from the progress line to get the actual length of the line. This is required to determine if the line is longer than the console width.
+                let progress_line_length = Console.progress_queue[i].progress_line.replace(/\x1b\[\d+m/g, '').length;
+                if(progress_line_length > console_width) { console.log(Console.progress_queue[i].progress_line.substr(0, console_width)); }
+                else { console.log(Console.progress_queue[i].progress_line); }
             } else {
                 console.log('');
             }
